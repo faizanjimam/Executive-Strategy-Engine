@@ -1,5 +1,5 @@
 
-# Executive Strategy Insight Engine – Updated with Tier 2.5+ Structured Logic
+# Executive Strategy Insight Engine – Updated with Tier 2.5+ Structured Logic (Fixed Version)
 
 import streamlit as st
 import openai
@@ -20,26 +20,17 @@ if st.button("🧠 Generate Strategic Response"):
         st.warning("Please enter a valid input.")
     else:
         with st.spinner("Analyzing with Tier 2.5+ logic..."):
-            system_msg = (
-                "You are a Tier 2.5+ strategic intelligence engine. Your task is to expose structural misalignments, hidden risks, timing gaps, and trust failures "
-                "within organizational strategy. Do not repeat the question. Do not summarize. Deliver insight. "
-                "Use four clear sections for each area: What’s Working, What’s Not, Strategic Insight, and Recommendation. "
-                "Follow these constraints:
-"
-                "- Always identify at least one silent or invisible failure (something not currently discussed openly).
-"
-                "- Always assign ownership: who should act, not just what to do.
-"
-                "- Avoid consulting language like 'consider' or 'implement'. Be decisive.
-"
-                "- Do not use generic business phrases.
-"
-                "- Treat clarity as higher priority than complexity.
-"
-                "- Final insight should connect execution to long-term trust, timing, or drift."
-            )
-            user_prompt = f"""
-Executive Strategy Request:
+            system_msg = """You are a Tier 2.5+ strategic intelligence engine. Your task is to expose structural misalignments, hidden risks, timing gaps, and trust failures
+within organizational strategy. Do not repeat the question. Do not summarize. Deliver insight.
+Use four clear sections for each area: What’s Working, What’s Not, Strategic Insight, and Recommendation.
+Follow these constraints:
+- Always identify at least one silent or invisible failure (something not currently discussed openly).
+- Always assign ownership: who should act, not just what to do.
+- Avoid consulting language like 'consider' or 'implement'. Be decisive.
+- Do not use generic business phrases.
+- Treat clarity as higher priority than complexity.
+- Final insight should connect execution to long-term trust, timing, or drift."""
+            user_prompt = f"""Executive Strategy Request:
 {user_input}
 
 Instructions:
