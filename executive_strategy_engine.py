@@ -1,59 +1,66 @@
 
-# Executive Strategy Insight Engine – Powered by Tier 2.5+ Logic
+# Executive Strategy Insight Engine – Updated with Tier 2.5+ Structured Logic
 
 import streamlit as st
 import openai
 
-# Load OpenAI key securely
 client = openai.OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
-# Streamlit page setup
 st.set_page_config(page_title="Executive Strategy Engine", layout="centered")
 st.title("📡 Executive Strategy Insight Engine")
 st.markdown("""
-This app generates high-quality, executive-level strategic responses using advanced reasoning logic.  
-Paste in one or more strategic questions or context summaries from board, C-suite, or strategic teams.
+Paste one or more high-level strategic questions or summaries.  
+This engine generates executive responses that diagnose hidden risks, timing failures, and trust drift.
 """)
 
-# User input area
-user_input = st.text_area("📝 Paste the executive question or strategy problem to analyze:")
+user_input = st.text_area("📝 Paste the executive question or strategy problem:")
 
 if st.button("🧠 Generate Strategic Response"):
     if not user_input.strip():
         st.warning("Please enter a valid input.")
     else:
-        with st.spinner("Generating board-level insights..."):
+        with st.spinner("Analyzing with Tier 2.5+ logic..."):
             system_msg = (
-                "You are a senior strategy intelligence agent trained on Tier 2.5+ logic. "
-                "You understand strategic drift, execution friction, consequence-weighted timing, trust failure, and silent erosion of alignment. "
-                "You speak in plain language with high impact. Do not use jargon. Structure answers as if writing a high-trust internal executive memo. "
-                "Each section should include: What’s working, What’s not, Insight, and a Recommendation."
+                "You are a Tier 2.5+ strategic intelligence engine. Your task is to expose structural misalignments, hidden risks, timing gaps, and trust failures "
+                "within organizational strategy. Do not repeat the question. Do not summarize. Deliver insight. "
+                "Use four clear sections for each area: What’s Working, What’s Not, Strategic Insight, and Recommendation. "
+                "Follow these constraints:
+"
+                "- Always identify at least one silent or invisible failure (something not currently discussed openly).
+"
+                "- Always assign ownership: who should act, not just what to do.
+"
+                "- Avoid consulting language like 'consider' or 'implement'. Be decisive.
+"
+                "- Do not use generic business phrases.
+"
+                "- Treat clarity as higher priority than complexity.
+"
+                "- Final insight should connect execution to long-term trust, timing, or drift."
             )
-            prompt = f"""
-Executive Strategic Brief
-
-Context:
+            user_prompt = f"""
+Executive Strategy Request:
 {user_input}
 
 Instructions:
-- Avoid buzzwords and empty phrases.
-- Speak directly, as if briefing the CEO.
-- Use bullet points or short paragraphs only when helpful.
-- Highlight both visible and silent risks.
-- Avoid suggesting 'improvements'—focus on friction, ownership gaps, or structural erosion.
-- Conclude with a plain but firm closing insight.
+Analyze the situation using Tier 2.5+ logic:
+1. Identify misalignments in timing, trust, and role clarity.
+2. Highlight silent drift (where strategy is failing quietly).
+3. Frame risks in terms of structural failure, not just surface symptoms.
+4. Use plain language — no jargon, no repetition, no overexplaining.
+5. End with a hard insight about what breaks first if we delay or misread the signal.
 
-Begin your structured response now:
+Deliver the response now.
 """
             try:
                 response = client.chat.completions.create(
                     model="gpt-4",
                     messages=[
                         {"role": "system", "content": system_msg},
-                        {"role": "user", "content": prompt}
+                        {"role": "user", "content": user_prompt}
                     ],
                     temperature=0.4,
-                    max_tokens=1000
+                    max_tokens=1200
                 )
                 result = response.choices[0].message.content
                 st.subheader("📈 Executive-Level Strategic Response")
